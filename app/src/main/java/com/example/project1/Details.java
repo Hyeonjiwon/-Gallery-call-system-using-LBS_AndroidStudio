@@ -50,11 +50,7 @@ public class Details extends AppCompatActivity {
             }
         }
 
-
         createdDialog(ID_JPGDIALOG).show(); // Instead of showDialog(0);
-        GeoDegree geoDegree = new GeoDegree(exif);
-        geoPoint = (TextView) dlg.findViewById(R.id.dlgGeoPoint);
-        geoPoint.setText(geoDegree.toString());
     }
 
     @Override
@@ -88,6 +84,11 @@ public class Details extends AppCompatActivity {
                 dlg.setContentView(R.layout.dialog_select_image_view);
                 content = (TextView) dlg.findViewById(R.id.dlgImageName);
                 content.setText(exifAttribute);
+
+                GeoDegree geoDegree = new GeoDegree(exif);
+                Log.d("지원", "DetailsClass : " + geoDegree);
+                geoPoint = (TextView) dlg.findViewById(R.id.dlgGeoPoint);
+                geoPoint.setText(geoDegree.toString());
 
                 Button okDialogButton = (Button) dlg.findViewById(R.id.btnOk);
                 okDialogButton.setOnClickListener(okDialogButtonOnClickListener);

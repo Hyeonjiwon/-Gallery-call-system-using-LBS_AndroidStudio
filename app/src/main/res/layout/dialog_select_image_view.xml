@@ -14,7 +14,9 @@
         android:id="@+id/dlgGeoPoint"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="top" />
+        android:background="#061b61"
+        android:gravity="top"
+        android:textColor="#ffff" />
 
     <Button
         android:id="@+id/btnOk"

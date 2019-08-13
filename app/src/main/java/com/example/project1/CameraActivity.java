@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -25,6 +28,7 @@ public class CameraActivity extends Activity {
     // Activity request codes
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     public static final int MEDIA_TYPE_IMAGE = 1;
+    private static String timeTmp;
     Context context = null;
 
     // directory name to store captured images
@@ -74,20 +78,16 @@ public class CameraActivity extends Activity {
                     double latitude = gps.getLatitude();
                     double longitude = gps.getLongitude();
 
-                    /*
-                    Intent Location_intent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putDouble("latitude", latitude);
-                    bundle.putDouble("longitude", longitude);
-                    Location_intent.putExtras(bundle);
-                    Location_intent.setClass(this, MapsActivity.class);
-                    startActivityForResult(Location_intent, 0);
-                    finish();
-                    */
-
                     // \n is for new line
                     Log.d("wldnjs_camera", "!!!!!" + latitude + " / " + longitude);
-                    Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                    Log.d("wldnjs_camera", "!!!!!" + fileUri);
+
+                    Toast.makeText(getApplicationContext(),"Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+
+                    //!!!!!!!
+                    // exif 파일에 위치 집어넣기
+                    setExifInfo(fileUri, latitude, longitude);
+
                 } else {
                     // Can't get location.
                     // GPS or network is not enabled.
@@ -105,6 +105,57 @@ public class CameraActivity extends Activity {
                         "Error!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    //위치 정보를 저장해주는 메소드
+    public void setExifInfo(Uri ImageUri, double lat, double lon) {
+        if (ImageUri != null && lat != 0.0 & lon != 0.0) {
+            String strlatitude = convertTagGPSFormat(lat);
+            String strlongitude = convertTagGPSFormat(lon);
+
+            Log.d("wldnjs_camera", "String " + strlatitude + " / " + strlongitude);
+
+            try {
+                ExifInterface exif = new ExifInterface(ImageUri.getPath());
+                exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE, strlatitude);
+                exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE_REF, latitudeRef(lat));
+                exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE, strlongitude);
+                exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF, longitudeRef(lon));
+                exif.saveAttributes();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public static String latitudeRef(double latitude) {
+        return latitude<0.0d?"S":"N";
+    }
+
+    /**
+     * returns ref for latitude which is S or N.
+     * @param latitude
+     * @return S or N
+     */
+    public static String longitudeRef(double longitude) {
+        return longitude<0.0d?"W":"E";
+    }
+
+    private String convertTagGPSFormat(double coordinate) {
+        String strlatitude = Location.convert(coordinate, Location.FORMAT_SECONDS);
+        String[] arrlatitude = strlatitude.split(":");
+        StringBuilder sb = new StringBuilder();
+        sb.append(arrlatitude[0]);
+        sb.append("/1,");
+        sb.append(arrlatitude[1]);
+        sb.append("/1,");
+        sb.append(arrlatitude[2]);
+        sb.append("/1,");
+
+        Log.d("wldnjs !!!!!!!!!!!!!!",sb.toString()+"!!!1");
+
+        return sb.toString();
     }
 
     @Override
@@ -130,6 +181,9 @@ public class CameraActivity extends Activity {
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 
+        //ExifInterface exif = new ExifInterface(fileUri);
+
+
         // start the image capture Intent
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
@@ -137,7 +191,6 @@ public class CameraActivity extends Activity {
     public Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
-
     /*
      * returning image / video
      */
@@ -157,6 +210,7 @@ public class CameraActivity extends Activity {
 
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        timeTmp = timeStamp;
         File mediaFileName;
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFileName = new File(mediaStorageDir.getPath() + File.separator
@@ -164,6 +218,10 @@ public class CameraActivity extends Activity {
         } else {
             return null;
         }
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        String tt = File.separator + "IMG_" + timeStamp + ".jpg";
+        Log.d("지원", "!!!!!!!!!!!!!!!!!!!!!!!!사진이름 " + tt);
         return mediaFileName;
     }
 
