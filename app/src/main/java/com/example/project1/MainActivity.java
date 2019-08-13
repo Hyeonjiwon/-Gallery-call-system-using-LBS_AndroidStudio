@@ -23,23 +23,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i(LOG_TAG, "현재 단말의 SDK : " + Build.VERSION.SDK_INT);
+        Log.i("wldnjs_Main", "MainActivity : 현재 단말의 SDK : " + Build.VERSION.SDK_INT);
 
-        /*
-        //권한 확인
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-
-        //권한 요청
-       if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
-            }
-       }
-       */
         checkTedPermission();
     }
 
@@ -62,26 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
     }
-    /*
-    //권한 요청 응답 처리
-    @Override
-    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_CAMERA: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    Toast.makeText(this,"승인이 허가되어 있습니다.",Toast.LENGTH_LONG).show();
-
-                } else {
-                    Toast.makeText(this,"아직 승인받지 않았습니다.",Toast.LENGTH_LONG).show();
-                }
-                return;
-            }
-        }
-    }
-    */
 
     @Override
     protected void onPostResume() {

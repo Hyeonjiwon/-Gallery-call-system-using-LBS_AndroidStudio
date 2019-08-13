@@ -39,7 +39,6 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".GalleryActivity" />
-        <activity android:name=".CameraActivity_tmp" />
         <activity android:name=".ImagePopup" />
         <activity android:name=".MainActivity">
             <intent-filter>

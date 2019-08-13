@@ -23,7 +23,7 @@ public class GeoDegree {
         attrLONGITUDE = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
         attrLONGITUDE_REF = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
 
-        Log.d("지원", "GeoDgreeClass : " + attrLATITUDE + " " + attrLATITUDE_REF + " " + attrLONGITUDE + " " + attrLONGITUDE_REF);
+        Log.d("wldnjs_Geo", "GeoDgree : " + attrLATITUDE + " " + attrLATITUDE_REF + " " + attrLONGITUDE + " " + attrLONGITUDE_REF);
 
         if ((attrLATITUDE != null) && (attrLATITUDE_REF != null) && (attrLONGITUDE != null) && (attrLONGITUDE_REF != null)) {
             valid = true;
@@ -41,7 +41,7 @@ public class GeoDegree {
             }
         }
         else {
-            Log.d("지원", "GeoDgreeClass : No Data");
+            Log.d("wldnjs_Geo", "GeoDgree : No Data");
         }
     };
 

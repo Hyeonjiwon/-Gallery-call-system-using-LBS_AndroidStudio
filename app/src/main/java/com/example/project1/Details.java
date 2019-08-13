@@ -1,7 +1,6 @@
 package com.example.project1;
 
 import android.app.Dialog;
-import android.app.DirectAction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -23,7 +22,6 @@ public class Details extends AppCompatActivity {
     private Dialog dlg;
     private TextView geoPoint;
     ExifInterface exif;
-    private DirectAction data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +36,6 @@ public class Details extends AppCompatActivity {
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
-            //Bitmap bm = BitmapFactory.decodeFile(path, options);
-            //detailsBtn.setImageBitmap(bm);
 
             try {
                 exif = new ExifInterface(path);
@@ -86,7 +82,7 @@ public class Details extends AppCompatActivity {
                 content.setText(exifAttribute);
 
                 GeoDegree geoDegree = new GeoDegree(exif);
-                Log.d("지원", "DetailsClass : " + geoDegree);
+                Log.d("wldnjs_Gallery", "Details : " + geoDegree);
                 geoPoint = (TextView) dlg.findViewById(R.id.dlgGeoPoint);
                 geoPoint.setText(geoDegree.toString());
 
@@ -126,7 +122,7 @@ public class Details extends AppCompatActivity {
     }
 
     private String getTagString(String tag, ExifInterface exif) {
-        Log.d("지원", "!!!!! " + tag +  " : " + exif.getAttribute(tag));
+        Log.d("wldnjs_Gallery", "Details : " + tag +  " : " + exif.getAttribute(tag));
         return (tag + " : " + exif.getAttribute(tag) + "\n");
     }
 }

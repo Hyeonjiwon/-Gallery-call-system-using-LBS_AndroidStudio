@@ -67,24 +67,23 @@ public class CameraActivity extends Activity {
         // if the result is capturing Image
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             gps = new GPSTracker(CameraActivity.this);
-            Log.d("wldnjs_camera", "!!!!!" + gps);
+            Log.d("wldnjs_camera", "CaemeraActivity : " + gps);
 
             if (resultCode == RESULT_OK)
             {
                 previewCapturedImage();
-                Log.d("wldnjs_camera", "!!!!!" + gps.canGetLocation());
+                Log.d("wldnjs_camera", "CaemeraActivity : " + gps.canGetLocation());
                 if(gps.canGetLocation())
                 {
                     double latitude = gps.getLatitude();
                     double longitude = gps.getLongitude();
 
                     // \n is for new line
-                    Log.d("wldnjs_camera", "!!!!!" + latitude + " / " + longitude);
-                    Log.d("wldnjs_camera", "!!!!!" + fileUri);
+                    Log.d("wldnjs_camera", "CaemeraActivity : " + latitude + " / " + longitude);
+                    Log.d("wldnjs_camera", "CaemeraActivity : " + fileUri);
 
                     Toast.makeText(getApplicationContext(),"Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
-                    //!!!!!!!
                     // exif 파일에 위치 집어넣기
                     setExifInfo(fileUri, latitude, longitude);
 
@@ -92,7 +91,7 @@ public class CameraActivity extends Activity {
                     // Can't get location.
                     // GPS or network is not enabled.
                     // Ask user to enable GPS/network in settings.
-                    Toast.makeText(getApplicationContext(), "Can't get location", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "CaemeraActivity : Can't get location", Toast.LENGTH_LONG).show();
                 }
 
             } else if (resultCode == RESULT_CANCELED) {
@@ -113,8 +112,6 @@ public class CameraActivity extends Activity {
             String strlatitude = convertTagGPSFormat(lat);
             String strlongitude = convertTagGPSFormat(lon);
 
-            Log.d("wldnjs_camera", "String " + strlatitude + " / " + strlongitude);
-
             try {
                 ExifInterface exif = new ExifInterface(ImageUri.getPath());
                 exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE, strlatitude);
@@ -129,19 +126,26 @@ public class CameraActivity extends Activity {
     }
 
 
-    public static String latitudeRef(double latitude) {
-        return latitude<0.0d?"S":"N";
-    }
-
+    //방향
     /**
      * returns ref for latitude which is S or N.
      * @param latitude
      * @return S or N
      */
+    public static String latitudeRef(double latitude) {
+        return latitude<0.0d?"S":"N";
+    }
+
+    /**
+     * returns ref for longitude which is W or E.
+     * @param longitude
+     * @return W or E
+     */
     public static String longitudeRef(double longitude) {
         return longitude<0.0d?"W":"E";
     }
 
+    //Exif 인코딩
     private String convertTagGPSFormat(double coordinate) {
         String strlatitude = Location.convert(coordinate, Location.FORMAT_SECONDS);
         String[] arrlatitude = strlatitude.split(":");
@@ -153,7 +157,7 @@ public class CameraActivity extends Activity {
         sb.append(arrlatitude[2]);
         sb.append("/1,");
 
-        Log.d("wldnjs !!!!!!!!!!!!!!",sb.toString()+"!!!1");
+        Log.d("wldnjs_camera","CaemeraActivity : "+ sb.toString());
 
         return sb.toString();
     }
@@ -203,7 +207,7 @@ public class CameraActivity extends Activity {
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d(IMAGE_DIRECTORY_NAME, "지원 " + IMAGE_DIRECTORY_NAME + " !!!");
+                Log.d("wldnjs_camera", "CaemeraActivity :  " + IMAGE_DIRECTORY_NAME + " !!!");
                 return null;
             }
         }
@@ -218,10 +222,6 @@ public class CameraActivity extends Activity {
         } else {
             return null;
         }
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        String tt = File.separator + "IMG_" + timeStamp + ".jpg";
-        Log.d("지원", "!!!!!!!!!!!!!!!!!!!!!!!!사진이름 " + tt);
         return mediaFileName;
     }
 
