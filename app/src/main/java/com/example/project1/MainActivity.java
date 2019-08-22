@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i("wldnjs_Main", "MainActivity : 현재 단말의 SDK : " + Build.VERSION.SDK_INT);
-
         checkTedPermission();
+
+        Log.i("wldnjs_Main", "MainActivity : 현재 단말의 SDK : " + Build.VERSION.SDK_INT);
     }
 
     private void checkTedPermission() {

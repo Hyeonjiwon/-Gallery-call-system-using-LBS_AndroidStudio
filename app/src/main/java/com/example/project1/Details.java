@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,7 +28,6 @@ public class Details extends AppCompatActivity {
         //setContentView(R.layout.dialog_select_image_view);
 
         Intent intent = getIntent();
-
 
         if (intent != null) {
             String path = intent.getStringExtra("filePath");
@@ -52,21 +50,20 @@ public class Details extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this, "onPause()", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onPause()", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Toast.makeText(this, "onStop()", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onStop()", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "onDestroy()", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onDestroy()", Toast.LENGTH_SHORT).show();
     }
-
 
     protected Dialog createdDialog(int id) {
         dlg = null;

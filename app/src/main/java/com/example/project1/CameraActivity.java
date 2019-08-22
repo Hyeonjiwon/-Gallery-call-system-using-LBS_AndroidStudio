@@ -52,7 +52,7 @@ public class CameraActivity extends Activity {
 
         /**
          * Capture image button click event
-         * */
+         *
         btnCapturePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +60,8 @@ public class CameraActivity extends Activity {
                 captureImage();
             }
         });
+         */
+        captureImage();
     }
 
     @Override
@@ -124,7 +126,6 @@ public class CameraActivity extends Activity {
             }
         }
     }
-
 
     //방향
     /**
